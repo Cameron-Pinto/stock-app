@@ -9,7 +9,7 @@ from multiprocessing import Pool
 import os
 
 path = (
-    "C:\\Users\\Camer\\OneDrive\\Documents\\Stock App\\stock_app\\stock_data\\data\\eod"
+    "C:\\Users\\Camer\\OneDrive\\Documents\\Python-Projects\\stock-app\\stock_data\\data\\eod"
 )
 # def read_csv(filename):
 #    return pd.read_csv(filename)
@@ -67,18 +67,17 @@ def do_backtest(filename):
     # emasignal = [0] * len(df)
     bt = Backtest(df, Willr, cash=10000, commission=0.00)
     stat = bt.run()
-    #bt.plot()
-    print(stat)
-    stat = bt.optimize(
-       upper_bound=list(np.arange(0, -40, -1)),
-       lower_bound=list(np.arange(-50, -90, -1)),
-       maximize="Equity Final [$]",
-    )
+    bt.plot()
+    #stat = bt.optimize(
+    #   upper_bound=list(np.arange(0, -40, -1)),
+    #   lower_bound=list(np.arange(-50, -90, -1)),
+    #   maximize="Equity Final [$]",
+    #)
     sym = filename.split(".")[0]
     return (sym, stat["Return [%]"], stat["Buy & Hold Return [%]"])
-    # dfp1 = pd.DataFrame(sym, stat["Return [%]"], stat["Buy & Hold Return [%]"])
-    # headers = ['Ticker', 'Return', 'Buy and Hold']
-    # dfp1.to_excel('data.xlsx', index=False, na_rep='N/A', header='headers', index_label='ID')
+    dfp1 = pd.DataFrame(sym, stat["Return [%]"], stat["Buy & Hold Return [%]"])
+    headers = ['Ticker', 'Return', 'Buy and Hold']
+    dfp1.to_excel('data.xlsx', index=False, na_rep='N/A', header='headers', index_label='ID')
 
 
 # def buysignal(df):

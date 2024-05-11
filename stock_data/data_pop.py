@@ -10,15 +10,15 @@ API_KEY = "BrJLVaynDhKd6wgaHuof4bbhfLQgdqiK"
 
 client = RESTClient(API_KEY)
 
-tickers = ["SPY","IVV","VOO","VTI","QQQ","VEA","IEFA","VTV","BND","VUG","AGG","IWF","VWO","IJH","IEMG","VIG","IJR","VXUS","GLD","VGT","XLK","VO","IWM","BNDX","IWD"]
+tickers = ["AAPL", "XOM", "MSFT", "IBM", "CVX"]
 aggs = []
 for symbol in tickers:
     aggs = client.get_aggs(
         symbol,
         1,
         "day",
-        "2018-06-04",
-        "2023-12-20",
+        "2019-06-04",
+        "2024-05-10",
         limit=1259,
     )
     df = pd.DataFrame(aggs)
