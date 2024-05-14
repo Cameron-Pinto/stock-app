@@ -1,5 +1,7 @@
 import pandas as pd
 from data_io import load_eod_data
+import matplotlib.pyplot as plt
+
 
 
 def calculate_simple_moving_average(series: pd.Series, n: int = 20) -> pd.Series:
@@ -77,6 +79,5 @@ if __name__ == "__main__":
     cmf = calculate_chaikin_money_flow(data)
     cmf.plot()
 
-    import matplotlib.pyplot as plt
 
     plt.show()

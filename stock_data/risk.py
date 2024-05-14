@@ -1,13 +1,15 @@
-from data_pop import tickers, pd, plt, np
+from data_pop import pd, plt, np
+from data_io import load_eod_data
 import yfinance as yf
 import seaborn as sns
 
 
 
-stocks = yf.download(tickers, start="2013-01-01")
+stocks = load_eod_data('AAPL')
+print(stocks)
 stocks.columns = stocks.columns.to_flat_index()
 stocks.columns = pd.MultiIndex.from_tuples(stocks.columns)
-close = stocks.loc[:, "Close"].copy()
+close = stocks.loc[:, "close"].copy()
 norm_close = close.div(close.iloc[0]).mul(100)
 norm_close.plot(figsize=(13, 8), fontsize=12)
 plt.legend(fontsize=12)

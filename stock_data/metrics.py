@@ -141,36 +141,6 @@ def calculate_pure_profit_score(price_series: pd.Series) -> float:
     return cagr * r_squared
 
 
-def calculate_jensens_alpha(
-    return_series: pd.Series, benchmark_return_series: pd.Series
-) -> float:
-    """
-    Calculates Jensen's alpha. Prefers input series have the same index. Handles
-    NAs.
-    """
-
-    # Join series along date index and purge NAs
-    df = pd.concat([return_series, benchmark_return_series], sort=True, axis=1)
-    df = df.dropna()
-
-    # Get the appropriate data structure for scikit learn
-    clean_returns: pd.Series = df[df.columns.values[0]]
-    clean_benchmarks = pd.DataFrame(df[df.columns.values[1]])
-
-    # Fit a linear regression and return the alpha
-    regression = LinearRegression().fit(clean_benchmarks, y=clean_returns)
-    return regression.intercept_
-
-
-def calculate_jensens_alpha_v2(return_series: pd.Series) -> float:
-    """
-    Calculates Jensen's alpha, but loads in SPY prices as the benchmark series
-    for you. Can be slow if run repeatedly.
-    """
-    spy_data = load_spy_data()
-    benchmark_return_series = calculate_log_return_series(spy_data["close"])
-    return calculate_jensens_alpha(return_series, benchmark_return_series)
-
 
 DRAWDOWN_EVALUATORS: Dict[str, Callable] = {
     "dollar": lambda price, peak: peak - price,
