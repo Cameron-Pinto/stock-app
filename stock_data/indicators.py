@@ -3,7 +3,6 @@ from data_io import load_eod_data
 import matplotlib.pyplot as plt
 
 
-
 def calculate_simple_moving_average(series: pd.Series, n: int = 20) -> pd.Series:
     """Calculates the simple moving average"""
     return series.rolling(n).mean()
@@ -64,6 +63,17 @@ def calculate_chaikin_money_flow(df: pd.DataFrame, n: int = 20) -> pd.Series:
     Calculates the Chaikin money flow
     """
     return calculate_money_flow_volume(df, n) / df["volume"].rolling(n).sum()
+
+def calculate_acc_dist(df: pd.DataFrame) -> pd.Series:
+    """
+    Calculates accumulation distribution indicator
+    """
+    if df["high"] != df["low"]:
+        ac = ((df["close"] - df["low"]) - (df["high"] - df["close"])) / (df["high"] - df["low"]) * df["volume"]
+    else:
+        ac = 0
+
+    return ac
 
 
 if __name__ == "__main__":

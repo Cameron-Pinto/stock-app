@@ -1,12 +1,10 @@
 from data_pop import pd, plt, np
 from data_io import load_eod_data
-import yfinance as yf
 import seaborn as sns
 
 
 
-stocks = load_eod_data('AAPL')
-print(stocks)
+stocks = yf.download(tickers, start="2013-01-01")
 stocks.columns = stocks.columns.to_flat_index()
 stocks.columns = pd.MultiIndex.from_tuples(stocks.columns)
 close = stocks.loc[:, "close"].copy()
